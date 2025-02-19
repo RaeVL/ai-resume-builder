@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Resume Generator</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; padding: 20px; background: #f8f9fa; }
+        input, textarea { width: 90%; padding: 10px; margin: 10px; border-radius: 5px; border: 1px solid #ccc; }
+        button { padding: 10px 20px; background: #28a745; color: white; border: none; cursor: pointer; }
+        button:hover { background: #218838; }
+        #output { text-align: left; width: 90%; margin: auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1); }
+    </style>
+</head>
+<body>
+    <h1>AI Resume Generator</h1>
+    
+    <h3>Personal Information</h3>
+    <input type="text" id="name" placeholder="Full Name">
+    <input type="text" id="email" placeholder="Email">
+    <input type="text" id="phone" placeholder="Phone Number">
+    
+    <h3>Job Information</h3>
+    <input type="text" id="jobTitle" placeholder="Target Job Title">
+    <textarea id="summary" placeholder="Brief summary of your professional experience (2-3 sentences)"></textarea>
+
+    <h3>Key Skills</h3>
+    <textarea id="skills" placeholder="Enter your top skills (comma-separated)"></textarea>
+
+    <h3>Professional Experience</h3>
+    <textarea id="experience" placeholder="Describe past roles, responsibilities, and key achievements"></textarea>
+
+    <h3>Employer-Specific Questions</h3>
+    <input type="text" id="achievement" placeholder="What is your greatest work-related achievement?">
+    <input type="text" id="problemSolving" placeholder="Describe a time you solved a problem at work.">
+    <input type="text" id="leadership" placeholder="Have you led a team? If so, describe how.">
+
+    <button onclick="generateResume()">Generate Resume</button>
+    <button onclick="downloadResume()">Download PDF</button>
+
+    <div id="output"></div>
+
+    <script>
+        function generateResume() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const jobTitle = document.getElementById('jobTitle').value;
+            const summary = document.getElementById('summary').value;
+            const skills = document.getElementById('skills').value.split(',').map(skill => `• ${skill.trim()}`).join('<br>');
+            const experience = document.getElementById('experience').value;
+            const achievement = document.getElementById('achievement').value;
+            const problemSolving = document.getElementById('problemSolving').value;
+            const leadership = document.getElementById('leadership').value;
+
+            const resume = `
+                <h2>${name}</h2>
+                <p>${email} | ${phone}</p>
+                <h3>${jobTitle}</h3>
+                <p>${summary}</p>
+                <h3>Skills</h3>
+                <p>${skills}</p>
+                <h3>Professional Experience</h3>
+                <p>${experience}</p>
+                <h3>Employer-Focused Questions</h3>
+                <p><strong>Greatest Work Achievement:</strong> ${achievement}</p>
+                <p><strong>Problem Solving Example:</strong> ${problemSolving}</p>
+                <p><strong>Leadership Experience:</strong> ${leadership}</p>
+            `;
+
+            document.getElementById('output').innerHTML = resume;
+        }
+
+        function downloadResume() {
+            const resumeText = document.getElementById('output').innerText;
+            const blob = new Blob([resumeText], { type: 'text/plain' });
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(blob);
+            link.download = "Resume.txt";
+            link.click();
+        }
+    </script>
+</body>
+</html>
